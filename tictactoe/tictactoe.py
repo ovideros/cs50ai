@@ -47,7 +47,7 @@ def actions(board):
     Returns set of all possible actions (i, j) available on the board.
     """
     # stores all the actions
-    available_actions = []
+    available_actions = set()
     # iterate through the board
     for i in range(3):
         for j in range(3):
@@ -55,6 +55,12 @@ def actions(board):
                 available_actions.append((i, j))
     return available_actions
 
+def is_valid_action(board, action):
+    i, j = action
+    if (board[i][j] != EMPTY):
+        raise ValueError("Action point is not empty.")
+    if (i < 0 or i >= 3 or j < 0 or j >= 3):
+        raise ValueError("Action index is out of bound.")
 
 def result(board, action):
     """
@@ -63,8 +69,7 @@ def result(board, action):
     # break down action into i, j
     i, j = action
     # cannot move
-    if (board[i][j] != EMPTY):
-        raise ValueError("Action is invalid for the board.")
+    is_valid_action(board, action)
     new_board = copy.deepcopy(board)
     # find player
     now_player = player(board)
@@ -147,6 +152,8 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
+    if (terminal(board)):
+        return None
     now_player = player(board)
     best_action = ()
     if (now_player == X): # maximize the result
