@@ -52,7 +52,7 @@ def actions(board):
     for i in range(3):
         for j in range(3):
             if (board[i][j] == EMPTY):
-                available_actions.append((i, j))
+                available_actions.add((i, j))
     return available_actions
 
 def is_valid_action(board, action):
